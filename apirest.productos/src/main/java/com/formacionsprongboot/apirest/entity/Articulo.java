@@ -1,115 +1,73 @@
 package com.formacionsprongboot.apirest.entity;
 
-import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="productos")
+@Table(name="articulos")
 public class Articulo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long CodArticulo;
 	
-	@Column(name="codigo", nullable = false, length=50)
-	private String codigo;
+	@Column(name="nombre", nullable = false, length=50)
+	private String nombre;
 	
-	@Column(name="tipo", nullable = false, length=50)
-	private String tipo;
-	
-	@Column(name="cantidad", nullable = false, length=50)
-	private int cantidad;
-	
-	@Column(name="precio", nullable = false)
-	private double precio;
-	
-	@Column(name="marca", nullable = false, length=50)
-	private String marca;
-	
-	@Column(name="fecha_ingreso")
-	@Temporal(TemporalType.DATE)
-	private Date fecha_ingreso;
-	
-	@Column(name="descripcion", nullable = false, length=250)
+	@Column(name="descripcion", nullable = false, length=50)
 	private String descripcion;
+	
+	@Column(name="precio_unidad", nullable = false, length=50)
+	private double precio_unidad;
+	
+	@Column(name="stock", nullable = false)
+	private int stock;
+	
+	@Column(name="stock_seguridad", nullable = false, length=50)
+	private int stock_seguridad;
 	
 	@Column(name="imagen", nullable = true)
 	private String imagen;
-	
-	
-	@PrePersist
-	public void prePersist()
-	{
-		if(fecha_ingreso==null)
-		this.setFecha_ingreso(new Date());
-	}
-	
+		
 	private static final long serialVersionUID = 1L;
+	
+	@ManyToMany(targetEntity = Compra.class)
+	private Set compraSet;
+	
 
 
-	public Long getId() {
-		return id;
+	public Set getCompraSet() {
+		return compraSet;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCompraSet(Set compraSet) {
+		this.compraSet = compraSet;
 	}
 
-	public String getCodigo() {
-		return codigo;
+	public Long getCodArticulo() {
+		return CodArticulo;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setCodArticulo(Long codArticulo) {
+		CodArticulo = codArticulo;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public int getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
-
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
-	public Date getFecha_ingreso() {
-		return fecha_ingreso;
-	}
-
-	public void setFecha_ingreso(Date fecha_ingreso) {
-		this.fecha_ingreso = fecha_ingreso;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getDescripcion() {
@@ -120,6 +78,30 @@ public class Articulo {
 		this.descripcion = descripcion;
 	}
 
+	public double getPrecio_unidad() {
+		return precio_unidad;
+	}
+
+	public void setPrecio_unidad(double precio_unidad) {
+		this.precio_unidad = precio_unidad;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public int getStock_seguridad() {
+		return stock_seguridad;
+	}
+
+	public void setStock_seguridad(int stock_seguridad) {
+		this.stock_seguridad = stock_seguridad;
+	}
+
 	public String getImagen() {
 		return imagen;
 	}
@@ -127,7 +109,8 @@ public class Articulo {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-	
+
+
 	
 	
 	

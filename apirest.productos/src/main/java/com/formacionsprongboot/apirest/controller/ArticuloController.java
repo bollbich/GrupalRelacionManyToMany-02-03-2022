@@ -114,15 +114,14 @@ public class ArticuloController {
 		articuloUpdate = servicio.FinById(id);
 		
 		try {
-			articuloUpdate.setCodigo(articulo.getCodigo());
-			articuloUpdate.setTipo(articulo.getTipo());
-			articuloUpdate.setCantidad(articulo.getCantidad());
-			articuloUpdate.setPrecio(articulo.getPrecio());
-			articuloUpdate.setMarca(articulo.getMarca());
-			articuloUpdate.setFecha_ingreso(articulo.getFecha_ingreso());
+			articuloUpdate.setNombre(articulo.getNombre());
 			articuloUpdate.setDescripcion(articulo.getDescripcion());
+			articuloUpdate.setPrecio_unidad(articulo.getPrecio_unidad());
+			articuloUpdate.setStock(articulo.getStock());
+			articuloUpdate.setStock_seguridad(articulo.getStock_seguridad());
+			articuloUpdate.setImagen(articulo.getImagen());
 				
-				servicio.save(articuloUpdate);				
+			servicio.save(articuloUpdate);				
 		}
 		catch (NullPointerException f) {
 					
