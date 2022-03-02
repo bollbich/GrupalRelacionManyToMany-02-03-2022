@@ -1,22 +1,17 @@
 package com.formacionsprongboot.apirest.entity;
 
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="articulos")
 public class Articulo {
-	
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long CodArticulo;
@@ -41,19 +36,6 @@ public class Articulo {
 		
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToMany(targetEntity = Compra.class)
-	private Set compraSet;
-	
-
-
-	public Set getCompraSet() {
-		return compraSet;
-	}
-
-	public void setCompraSet(Set compraSet) {
-		this.compraSet = compraSet;
-	}
-
 	public Long getCodArticulo() {
 		return CodArticulo;
 	}

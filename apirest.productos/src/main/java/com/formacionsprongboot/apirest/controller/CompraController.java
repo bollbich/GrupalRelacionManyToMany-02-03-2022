@@ -90,7 +90,7 @@ public class CompraController {
 		
 		try {
 			compraActual.setCliente(compra.getCliente());
-			compraActual.setArticulos(compra.getArticulos());
+			compraActual.setArticulo(compra.getArticulo());
 			compraActual.setFecha(compra.getFecha());
 			compraActual.setUnidades(compra.getUnidades());
 			

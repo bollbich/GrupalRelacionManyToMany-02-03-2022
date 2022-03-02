@@ -11,8 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,16 +35,17 @@ public class Compra implements Serializable {
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private Cliente cliente;
 	
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="CodArticulo")
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="codArticulo")
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-	private List<Articulo> articulos;
+	private Articulo articulo;
 	
 	@Column(name="fecha", unique=true)
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 	
-	private int unidades;
+	@Column(name="unidades")
+	private int unidades;	
 	
 	@PrePersist
 	public void prePersist() {
@@ -51,22 +54,44 @@ public class Compra implements Serializable {
 		}	
 	}
 	
+	
+	
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+
 	public Cliente getCliente() {
 		return cliente;
 	}
-	
+
+
+
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	public List<Articulo> getArticulos() {
-		return articulos;
+
+
+
+	public Articulo getArticulo() {
+		return articulo;
 	}
-	
-	public void setArticulos(List<Articulo> articulos) {
-		this.articulos = articulos;
+
+
+
+	public void setArticulo(Articulo articulo) {
+		this.articulo = articulo;
 	}
-	
+
+
+
 	public Date getFecha() {
 		return fecha;
 	}

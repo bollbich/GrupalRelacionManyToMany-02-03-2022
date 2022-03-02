@@ -46,19 +46,7 @@ public class Cliente {
 	
 	@Column(name="fechaNacimiento")
 	@Temporal(TemporalType.DATE)
-	private Date fechaNacimiento;
-	
-	@ManyToMany(targetEntity = Compra.class)
-    private Set compras;
-	
-	
-	public Set getCompras() {
-		return compras;
-	}
-
-	public void setCompras(Set compras) {
-		this.compras = compras;
-	}
+	private Date fechaNacimiento;	
 
 	public Long getCodCliente() {
 		return codCliente;
