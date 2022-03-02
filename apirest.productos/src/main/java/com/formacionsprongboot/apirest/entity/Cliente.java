@@ -1,4 +1,4 @@
-package com.formacionsprongboot.apirest.productos.entity;
+package com.formacionsprongboot.apirest.entity;
 
 import java.util.Date;
 

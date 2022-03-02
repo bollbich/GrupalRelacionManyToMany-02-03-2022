@@ -1,4 +1,4 @@
-package com.formacionsprongboot.apirest.productos;
+package com.formacionsprongboot.apirest.RelacionesMtM;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
