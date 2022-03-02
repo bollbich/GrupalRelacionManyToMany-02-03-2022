@@ -1,4 +1,4 @@
-package com.formacionsprongboot.apirest.productos.entity;
+package com.formacionsprongboot.apirest.entity;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="productos")
-public class Producto {
+public class Articulo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

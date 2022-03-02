@@ -1,4 +1,4 @@
-package com.formacionsprongboot.apirest.productos.controller;
+package com.formacionsprongboot.apirest.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,32 +31,32 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.formacionsprongboot.apirest.productos.entity.Producto;
-import com.formacionsprongboot.apirest.productos.service.ProductoService;
+import com.formacionsprongboot.apirest.entity.Cliente;
+import com.formacionsprongboot.apirest.service.ClienteService;
 
 
-@RestController
-@RequestMapping("/api")
-public class ArticuloController {
+	@RestController
+	@RequestMapping("/api")
+public class ClienteController {
 	
 	@Autowired
-	private ProductoService servicio;
+	private ClienteService servicio;
 	
-	@GetMapping({"/Articulos", "/todos"})
-	public List<Producto> index()
+	@GetMapping({"/Clientes", "/todos"})
+	public List<Cliente> index()
 	{
-		return servicio.ListarTodosProductos();
+		return servicio.ListarTodosClientes();
 	}
 	
-	@GetMapping("/Articulo/buscarArticulo/{id}")
-	public ResponseEntity<?> FinArticuloById(@PathVariable Long id)
+	@GetMapping("/Cliente/buscarCliente/{id}")
+	public ResponseEntity<?> FinClienteById(@PathVariable Long id)
 	{
-		Articulo articulo = null;
+		Cliente cliente = null;
 		
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			articulo = servicio.FinById(id);
+			cliente = servicio.FinById(id);
 		} catch (DataAccessException e) {
 
 			response.put("mensaje", "Error al realizar la consulta");
@@ -65,27 +65,27 @@ public class ArticuloController {
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		if(articulo == null)
+		if(cliente == null)
 		{
-			response.put("mensaje", "El ID de articulo ".concat(id.toString()).concat(" no existe en la base de datos"));
+			response.put("mensaje", "El ID de cliente ".concat(id.toString()).concat(" no existe en la base de datos"));
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
 		
 		}
 		else
 		{
-			return new ResponseEntity<Producto>(articulo,HttpStatus.OK);
+			return new ResponseEntity<Cliente>(cliente,HttpStatus.OK);
 		}		
 	}
 	
 	
-	@PostMapping("/Articulo/guardarArticulo")
+	@PostMapping("/Cliente/guardarCliente")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> SaveProducto(@RequestBody Articulo articulo)
+	public ResponseEntity<?> SaveCliente(@RequestBody Cliente cliente)
 	{		
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			servicio.save(articulo);
+			servicio.save(cliente);
 		} catch (DataAccessException e) {
 
 			response.put("mensaje", "Error al realizar la insert a la base de datos");
@@ -94,39 +94,39 @@ public class ArticuloController {
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		response.put("mensaje", "¡El producto ha sido creado con exito!");
-		response.put("Producto",articulo);
+		response.put("mensaje", "¡El cliente ha sido creado con exito!");
+		response.put("Cliente",cliente);
 		
 		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
 	}
 	
 	
-	@PutMapping("/Articulo/updateArticulo/{id}")
+	@PutMapping("/Cliente/updateCliente/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Map<String, Object>> UpdateProducto(@RequestBody Articulo articulo, @PathVariable Long id)
+	public ResponseEntity<Map<String, Object>> UpdateCliente(@RequestBody Cliente cliente, @PathVariable Long id)
 	{
 		Map<String, Object> response = new HashMap<>();
 		
 		ResponseEntity<Map<String, Object>> resultado = null;
 		
-		Articulo articuloUpdate = null;	
+		Cliente clienteUpdate = null;	
 		
-		articuloUpdate = servicio.FinById(id);
+		clienteUpdate = servicio.FinById(id);
 		
 		try {
-			articuloUpdate.setCodigo(articulo.getCodigo());
-			articuloUpdate.setTipo(articulo.getTipo());
-			articuloUpdate.setCantidad(articulo.getCantidad());
-			articuloUpdate.setPrecio(articulo.getPrecio());
-			articuloUpdate.setMarca(articulo.getMarca());
-			articuloUpdate.setFecha_ingreso(articulo.getFecha_ingreso());
-			articuloUpdate.setDescripcion(articulo.getDescripcion());
+			clienteUpdate.setCodigo(cliente.getCodigo());
+			clienteUpdate.setTipo(cliente.getTipo());
+			clienteUpdate.setCantidad(cliente.getCantidad());
+			clienteUpdate.setPrecio(cliente.getPrecio());
+			clienteUpdate.setMarca(cliente.getMarca());
+			clienteUpdate.setFecha_ingreso(cliente.getFecha_ingreso());
+			clienteUpdate.setDescripcion(cliente.getDescripcion());
 				
-				servicio.save(articuloUpdate);				
+				servicio.save(clienteUpdate);				
 		}
 		catch (NullPointerException f) {
 					
-			response.put("mensaje", "Error el producto no existe en la base de datos");
+			response.put("mensaje", "Error el cliente no existe en la base de datos");
 			response.put("error", f.getMessage());
 			resultado = new ResponseEntity<Map<String,Object>>(response,HttpStatus.NO_CONTENT);
 				
@@ -138,36 +138,36 @@ public class ArticuloController {
 		}
 		
 		
-		if(articuloUpdate==null)
+		if(clienteUpdate==null)
 		{
-			response.put("mensaje", "El ID de articulo ".concat(id.toString()).concat(" no existe en la base de datos"));
+			response.put("mensaje", "El ID de cliente ".concat(id.toString()).concat(" no existe en la base de datos"));
 			resultado = new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
 		}
 		else
 		{
-			response.put("mensaje", "¡El articulo ha sido actualizado con exito!");
-			response.put("Articulo",articuloUpdate);
+			response.put("mensaje", "¡El cliente ha sido actualizado con exito!");
+			response.put("Cliente",clienteUpdate);
 			resultado = new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
 		}		
 		return resultado;
 	}
 	
 	
-	@DeleteMapping("/Articulo/deleteArticulo/{id}")
+	@DeleteMapping("/Cliente/deleteCliente/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public ResponseEntity<Map<String, Object>> DeleteArticulo(@PathVariable Long id)
+	public ResponseEntity<Map<String, Object>> DeleteCliente(@PathVariable Long id)
 	{		
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		Articulo articulo = null;
+		Cliente cliente = null;
 		
 		ResponseEntity<Map<String, Object>> resultado = null;
 		
 		try {
-			articulo = servicio.FinById(id);
+			cliente = servicio.FinById(id);
 			
-			String nombreFotoAnterior = articulo.getImagen();
+			String nombreFotoAnterior = cliente.getImagen();
 			
 			if(nombreFotoAnterior!= null && nombreFotoAnterior.length()>0)
 			{
@@ -189,10 +189,10 @@ public class ArticuloController {
 			resultado =  new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		if(articulo !=null)
+		if(cliente !=null)
 		{
-			response.put("mensaje", "¡El articulo ha sido eliminado con exito!");
-			response.put("Producto",articulo);
+			response.put("mensaje", "¡El cliente ha sido eliminado con exito!");
+			response.put("Cliente",cliente);
 			
 			resultado = new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
 		}				
@@ -200,16 +200,16 @@ public class ArticuloController {
 	}
 
 	
-	@PostMapping("/Articulo/uploadImagen")
-	public ResponseEntity<Map<String,Object>> UploadProductoImagen(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id")Long id)
+	@PostMapping("/Cliente/uploadImagen")
+	public ResponseEntity<Map<String,Object>> UploadClienteImagen(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id")Long id)
 	{
 		ResponseEntity<Map<String, Object>> resultado = null;
 		
 		Map<String, Object> response = new HashMap<>();
 		
-		Articulo articuloImageUpload = null;
+		Cliente clienteImageUpload = null;
 		
-		articuloImageUpload = servicio.FinById(id);
+		clienteImageUpload = servicio.FinById(id);
 		
 		Path rutaArchivo = null;
 		
@@ -223,9 +223,9 @@ public class ArticuloController {
 				
 				rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
 			}
-			articuloImageUpload.setImagen(rutaArchivo.toString());
+			clienteImageUpload.setImagen(rutaArchivo.toString());
 			
-			String nombreFotoAnterior = articuloImageUpload.getImagen();
+			String nombreFotoAnterior = clienteImageUpload.getImagen();
 			
 			if(nombreFotoAnterior!= null && nombreFotoAnterior.length()>0)
 			{
@@ -239,11 +239,11 @@ public class ArticuloController {
 			
 			Files.copy(archivo.getInputStream(), rutaArchivo);
 				
-			servicio.save(articuloImageUpload);				
+			servicio.save(clienteImageUpload);				
 		}
 		catch (NullPointerException f) {
 					
-			response.put("mensaje", "Error el articulo no existe en la base de datos");
+			response.put("mensaje", "Error el cliente no existe en la base de datos");
 			response.put("error", f.getMessage());
 			resultado = new ResponseEntity<Map<String,Object>>(response,HttpStatus.NO_CONTENT);
 				
@@ -270,21 +270,21 @@ public class ArticuloController {
 		}
 		
 		
-		if(articuloImageUpload==null)
+		if(clienteImageUpload==null)
 		{
-			response.put("mensaje", "El ID de articulo ".concat(id.toString()).concat(" no existe en la base de datos"));
+			response.put("mensaje", "El ID de cliente ".concat(id.toString()).concat(" no existe en la base de datos"));
 			resultado = new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
 		}
 		else
 		{
-			response.put("mensaje", "¡El articulo ha sido actualizado con exito!");
-			response.put("Articulo",articuloImageUpload);
+			response.put("mensaje", "¡El cliente ha sido actualizado con exito!");
+			response.put("Cliente",clienteImageUpload);
 			resultado = new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
 		}		
 		return resultado;
 	}
 
-	@GetMapping("/articulo/verImagen/{nombreImagen:.+}")
+	@GetMapping("/cliente/verImagen/{nombreImagen:.+}")
 	public ResponseEntity<Resource> VerImagen(@PathVariable String nombreImagen){
 		
 		Path rutaImagen = Paths.get("uploads").resolve(nombreImagen).toAbsolutePath();
