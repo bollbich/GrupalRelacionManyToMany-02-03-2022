@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.formacionsprongboot.apirest.dao.ArticuloDao;
 import com.formacionsprongboot.apirest.entity.Articulo;
+import com.formacionsprongboot.apirest.entity.Cliente;
 
 
 @Service
@@ -38,6 +39,12 @@ public class ArticuloServiceImpl implements ArticuloService{
 
 		AccesoDb.deleteById(id);
 		
+	}
+
+	@Override
+	public Articulo findByNombre(String nombre) {
+		
+		return AccesoDb.findByNombre(nombre);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.formacionsprongboot.apirest.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,10 @@ public class CopraServiceImpl implements CompraService {
 	public Compra save(Compra compra) {
 		return compraDao.save(compra);
 	}
-	/*
+
 	@Override
-	@Transactional
-	public void delete(Long id) {
-		compraDao.deleteById(id);
+	public Compra findByDate(Date date) {
+		
+		return compraDao.findByFecha(date);
 	}
-	*/
 }

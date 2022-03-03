@@ -15,5 +15,7 @@ public interface ArticuloService {
 		public Articulo save(Articulo articulo);
 		
 		public void Delete(Long id);
+		
+		public Articulo findByNombre(String nombre);
 
 }

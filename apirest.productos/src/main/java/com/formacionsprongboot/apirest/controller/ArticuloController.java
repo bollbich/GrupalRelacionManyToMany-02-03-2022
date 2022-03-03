@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.formacionsprongboot.apirest.entity.Articulo;
+import com.formacionsprongboot.apirest.entity.Articulo;
 import com.formacionsprongboot.apirest.service.ArticuloService;
 
 
@@ -307,5 +308,40 @@ public class ArticuloController {
 		
 		return new ResponseEntity<Resource>(recurso,cabecera,HttpStatus.OK);
 		
+	}
+	
+	
+	@PostMapping("/Articulo/finbyname")
+	public ResponseEntity<?> FindArticuloByName(@RequestBody Articulo articulo)
+	{
+		Articulo articuloActual = null;
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		
+		try {
+			
+			articuloActual = servicio.findByNombre(articulo.getNombre());			
+			
+			
+		} catch (DataAccessException e) {
+
+			response.put("mensaje", "Error al realizar la consulta");
+			response.put("error", e.getMessage().concat(": ".concat(e.getMostSpecificCause().getMessage())));
+		
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if(articuloActual == null)
+		{
+			response.put("mensaje", "El articulo ".concat(articulo.getNombre().concat(" no existe en la base de datos")));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		
+		}
+		else
+		{
+			return new ResponseEntity<Articulo>(articuloActual,HttpStatus.OK);
+			
+		}		
 	}
 }

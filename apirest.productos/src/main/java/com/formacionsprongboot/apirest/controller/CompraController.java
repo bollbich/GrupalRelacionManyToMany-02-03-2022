@@ -109,6 +109,41 @@ public class CompraController {
 		 
 		 return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
+	
+	
+	@PostMapping("/Compra/finbyname")
+	public ResponseEntity<?> FindCompraByName(@RequestBody Compra compra)
+	{
+		Compra compraActual = null;
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		
+		try {
+			
+			compraActual = servicio.findByDate(compra.getFecha());			
+			
+			
+		} catch (DataAccessException e) {
+
+			response.put("mensaje", "Error al realizar la consulta");
+			response.put("error", e.getMessage().concat(": ".concat(e.getMostSpecificCause().getMessage())));
+		
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if(compraActual == null)
+		{
+			response.put("mensaje", "La compra ".concat(compra.getId().toString().concat(" no existe en la base de datos")));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		
+		}
+		else
+		{
+			return new ResponseEntity<Compra>(compraActual,HttpStatus.OK);
+			
+		}		
+	}
 }
 
 

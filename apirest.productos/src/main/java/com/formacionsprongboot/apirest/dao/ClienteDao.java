@@ -8,4 +8,5 @@ import com.formacionsprongboot.apirest.entity.Cliente;
 @Repository
 public interface ClienteDao extends CrudRepository<Cliente, Long>{
 
+	public Cliente findByNombre(String nombre);
 }

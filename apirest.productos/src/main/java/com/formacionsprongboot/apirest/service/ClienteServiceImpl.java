@@ -37,4 +37,10 @@ public class ClienteServiceImpl implements ClienteService{
 		AccesoDb.deleteById(id);
 		
 	}
+
+	@Override
+	public Cliente findByNombre(String nombre) {
+		
+		return AccesoDb.findByNombre(nombre);
+	}
 }

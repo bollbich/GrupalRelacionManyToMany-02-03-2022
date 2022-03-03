@@ -206,4 +206,39 @@ public class ClienteController {
 		return new ResponseEntity<Resource>(recurso,cabecera,HttpStatus.OK);
 		
 	}
+	
+	
+	@PostMapping("/Cliente/finbyname")
+	public ResponseEntity<?> FindClienteByName(@RequestBody Cliente cliente)
+	{
+		Cliente clienteActual = null;
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		
+		try {
+			
+			clienteActual = servicio.findByNombre(cliente.getNombre());			
+			
+			
+		} catch (DataAccessException e) {
+
+			response.put("mensaje", "Error al realizar la consulta");
+			response.put("error", e.getMessage().concat(": ".concat(e.getMostSpecificCause().getMessage())));
+		
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if(clienteActual == null)
+		{
+			response.put("mensaje", "El cliente ".concat(cliente.getNombre().concat(" no existe en la base de datos")));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		
+		}
+		else
+		{
+			return new ResponseEntity<Cliente>(clienteActual,HttpStatus.OK);
+			
+		}		
+	}
 }
