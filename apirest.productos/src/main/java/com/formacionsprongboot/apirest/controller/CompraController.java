@@ -111,7 +111,7 @@ public class CompraController {
 	}
 	
 	
-	@PostMapping("/Compra/finbyname")
+	@PostMapping("/Compra/finbydate")
 	public ResponseEntity<?> FindCompraByDate(@RequestBody Compra compra)
 	{
 		Compra compraActual = null;
